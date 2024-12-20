@@ -36,17 +36,16 @@ app.get("/", (req,res)=>{
 
 
 
-// const validateListing = (req,res,next) =>{
-//     let{ error }=   listingSchema.validate(req.body);
-//      if(error){
-//     let errMssg = error.details.map((el)=>   el.message).join(",");
-    
-//     throw new ExpressError(400, result.error);
+const validateListing = (req,res,next) =>{
+    let {error} = listingSchema.validate(req.body);
+    if(error){
 
-// }else{
-//     next();
-// }
-// };
+        let errMsg = error.details.map((el) => el.message).join(",");
+     throw new ExpressError(400, errMsg);
+    }else{
+        next();
+    } 
+};
 //Index Route
  app.get("/listings", wrapAsync (async (req,res) =>{
     const allListings = await Listing.find({})
@@ -68,11 +67,10 @@ app.get("/listings/new", (req, res) =>{
 
 //Create Route
 app.post("/listings", 
-     
+     validateListing,
     wrapAsync(async(req,res,next)=>{
     //    console.log(req.body);
-   let result = listingSchema.validate(req.body);
-   console.log(result);
+  
     const newlisting= new Listing(req.body.listing);
     await newlisting.save();
    res.redirect("/listings");
@@ -89,7 +87,7 @@ app.get("/listings/:id/edit", wrapAsync(async (req, res) =>{
 
 //Update Route
 app.put("/listings/:id", 
-   
+   validateListing,
     wrapAsync(async(req,res) =>{
    
     let {id} = req.params;
@@ -109,7 +107,7 @@ app.delete("/listings/:id",wrapAsync(async(req,res) =>{
 //Reviews
 //Post route
 app.post("/listings/:id/reviews", async(res,req)=>{
-  let listing = await Listing.findById(req.params.id);
+  let listing = await Listing.findById(req.params._id);
   let newReview = new Review(req.body.review);
 
   listing.reviews.push(newReview);
