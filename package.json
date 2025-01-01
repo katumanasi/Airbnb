@@ -16,6 +16,6 @@
     "joi": "^17.13.3",
     "method-override": "^3.0.0",
     "mongoose": "^8.8.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.9"
   }
 }
