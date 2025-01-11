@@ -10,7 +10,7 @@ const listingSchema = new Schema({
     description:String,
     image:{
         url: String,
-        filename:String,
+        filename: String,
        
         
     },
@@ -23,6 +23,10 @@ const listingSchema = new Schema({
             ref: "Review",
         },
     ],
+    owner: {
+    type:Schema.Types.ObjectId,
+    ref: "User",
+    },
 });
 
 
