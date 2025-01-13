@@ -30,7 +30,9 @@ router.route("/")
     validateListing,
    wrapAsync(listingController.createListing));
 
-
+// .post(upload.single,("[listing[image]"), (req,res) =>{
+//     res.send(req.file);
+// });
 
 
 //New Route
@@ -40,6 +42,8 @@ router.route("/:id")
 .get( wrapAsync (listingController.showListing))
 .put(
   isLoggedIn,
+  isOwner,
+  upload.single("listing[image]"),
   validateListing,
    wrapAsync(listingController.renderUpdateForm))
   .delete(
