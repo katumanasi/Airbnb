@@ -22,9 +22,9 @@ const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const { error } = require('console');
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/airbnb";
+const MONGO_URL = "mongodb://127.0.0.1:27017/airbnb";
 
-const dbUrl = process.env.ATLAS_DB;
+// const dbUrl = process.env.ATLAS_DB;
 
 main().then(() =>{
     console.log("Connected to DB");
@@ -33,7 +33,7 @@ main().then(() =>{
     console.log(err);
 });
 async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(MONGO_URL);
        
 }
 
@@ -45,30 +45,30 @@ app.engine('ejs',ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 
-const store =  MongoStore.create({
-    mongoUrl:dbUrl,
-    crypto: {
-        secret:process.env.SECRET,
-    },
-    touchAfter: 24 * 3600,
-});
+// const store =  MongoStore.create({
+//     mongoUrl:dbUrl,
+//     crypto: {
+//         secret:process.env.SECRET,
+//     },
+//     touchAfter: 24 * 3600,
+// });
 
-store.on("error", ()=>{
-    console.log("ERROR IN MONGO SESSION STORE", err);
-});
+// store.on("error", ()=>{
+//     console.log("ERROR IN MONGO SESSION STORE", err);
+// });
 
-const sessionOptions = {
-    store,
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        expires: Date.now() + 7 * 24 *60 * 60 * 1000,
-        maxAge :  7 * 24 *60 * 60 * 1000,
-        httpOnly: true,
-    }
+// const sessionOptions = {
+//     store,
+//     secret: process.env.SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//         expires: Date.now() + 7 * 24 *60 * 60 * 1000,
+//         maxAge :  7 * 24 *60 * 60 * 1000,
+//         httpOnly: true,
+//     }
 
-};
+// };
 
 // app.get("/", (req,res)=>{
 //     res.send("Hii, I am root");
@@ -77,7 +77,7 @@ const sessionOptions = {
 
 
 
-app.use(session(sessionOptions));
+//app.use(session(sessionOptions));
 app.use(flash());
 
 
